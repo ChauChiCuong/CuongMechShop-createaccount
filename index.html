@@ -9,6 +9,10 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <!-- Firebase Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <style>
         @import url(
             "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap"
@@ -247,7 +251,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="Người chơi mới"
+                                        value="newbie"
                                         class="rounded-full text-cyan-500"
                                         checked
                                         enabled
@@ -258,7 +262,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="Bạch Kim"
+                                        value="platinum"
                                         class="rounded-full text-cyan-500"
                                     />
                                     <span>Bạch Kim</span>
@@ -267,7 +271,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="Ascendant"
+                                        value="ascendant"
                                         class="rounded-full text-cyan-500"
                                     />
                                     <span>Ascendant</span>
@@ -276,7 +280,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="Ưu Tú"
+                                        value="elite"
                                         class="rounded-full text-cyan-500"
                                     />
                                     <span>Ưu Tú</span>
@@ -285,7 +289,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="Huyền Thoại"
+                                        value="legend"
                                         class="rounded-full text-cyan-500"
                                     />
                                     <span>Huyền Thoại</span>
@@ -294,7 +298,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="Nhà Vô Địch"
+                                        value="champion"
                                         class="rounded-full text-cyan-500"
                                     />
                                     <span>Nhà Vô Địch</span>
@@ -313,11 +317,11 @@
                                 name="playStyle"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 input-field focus:outline-none focus:border-cyan-500"
                             >
-                                <option value="0">Người mới đào tạo</option>
-                                <option value="20">Lv.20 - Lv.39</option>
-                                <option value="40">Lv.40 - Lv.59</option>
-                                <option value="60">Lv.60 - Lv.89</option>
-                                <option value="90">Lv.90 - Lv.103</option>
+                                <option value="aggressive">Người mới đào tạo</option>
+                                <option value="defensive">Lv.20 - Lv.39</option>
+                                <option value="balanced">Lv.40 - Lv.59</option>
+                                <option value="support">Lv.60 - Lv.89</option>
+                                <option value="stealth">Lv.90 - Lv.103</option>
                             </select>
                         </div>
                     </div>
@@ -386,101 +390,98 @@
     </main>
 
     <script>
-        // Utility: generate unique ID string
-        function generateId() {
-            return (
-                Date.now().toString(36) +
-                Math.random().toString(36).substr(2, 9)
-            );
+        // Firebase config - Thay giá trị này bằng config của bạn từ Firebase Console
+        const firebaseConfig = {
+          apiKey: "YOUR_API_KEY",
+          authDomain: "YOUR_AUTH_DOMAIN",
+          projectId: "YOUR_PROJECT_ID",
+          storageBucket: "YOUR_STORAGE_BUCKET",
+          messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+          appId: "YOUR_APP_ID"
+        };
+
+        // Khởi tạo Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Hàm kiểm tra hợp lệ form cơ bản
+        function validateForm(data) {
+          const { firstName, lastName, email, phone, username, password, confirmPassword, terms } = data;
+          if (!firstName || !lastName || !email || !phone || !username || !password || !confirmPassword) {
+            alert("Vui lòng điền đầy đủ các trường bắt buộc.");
+            return false;
+          }
+          if (password !== confirmPassword) {
+            alert("Mật khẩu không khớp.");
+            return false;
+          }
+          if (!terms) {
+            alert("Bạn cần đồng ý với các điều khoản.");
+            return false;
+          }
+          return true;
         }
 
-        document
-            .getElementById("accountForm")
-            .addEventListener("submit", function (event) {
-                event.preventDefault();
+        // Xử lý đăng ký form
+        document.getElementById("accountForm").addEventListener("submit", async function (event) {
+          event.preventDefault();
 
-                const form = event.target;
-                const firstName = form.firstName.value.trim();
-                const lastName = form.lastName.value.trim();
-                const email = form.email.value.trim();
-                const phone = form.phone.value.trim();
-                const username = form.username.value.trim();
-                const password = form.password.value;
-                const confirmPassword = form.confirmPassword.value;
-                const rank = form.rank.value;
-                const playStyle = form.playStyle.value;
-                const termsChecked = form.terms.checked;
+          const form = event.target;
+          const data = {
+            firstName: form.firstName.value.trim(),
+            lastName: form.lastName.value.trim(),
+            email: form.email.value.trim(),
+            phone: form.phone.value.trim(),
+            username: form.username.value.trim(),
+            password: form.password.value,
+            confirmPassword: form.confirmPassword.value,
+            rank: form.rank.value,
+            playStyle: form.playStyle.value,
+            terms: form.terms.checked
+          };
 
-                if (!firstName || !lastName || !email || !phone || !username || !password || !confirmPassword) {
-                    alert("Please fill in all required fields.");
-                    return;
-                }
+          if (!validateForm(data)) {
+            return;
+          }
 
-                if (password !== confirmPassword) {
-                    alert("Mật khẩu không khớp.");
-                    return;
-                }
+          try {
+            // Tạo user với email và mật khẩu Firebase Authentication
+            const userCredential = await auth.createUserWithEmailAndPassword(data.email, data.password);
+            const user = userCredential.user;
 
-                if (!termsChecked) {
-                    alert("Bạn cần đồng ý với các điều khoản.");
-                    return;
-                }
-
-                // Read existing users from localStorage or empty array
-                let users = [];
-                const storedUsers = localStorage.getItem("admin_users");
-                if (storedUsers) {
-                    users = JSON.parse(storedUsers);
-                }
-
-                // Check if username or email already exists
-                const usernameExists = users.some(
-                    (user) =>
-                        user.username.toLowerCase() === username.toLowerCase()
-                );
-                if (usernameExists) {
-                    alert("Tên đăng nhập đã tồn tại.");
-                    return;
-                }
-                const emailExists = users.some(
-                    (user) => user.email.toLowerCase() === email.toLowerCase()
-                );
-                if (emailExists) {
-                    alert("Email đã tồn tại.");
-                    return;
-                }
-
-                // Create new user object with keys matching admin page
-                const newUser = {
-                    id: generateId(),
-                    username,
-                    email,
-                    password,
-                    role: "player",
-                    status: "active",
-                    firstName,
-                    lastName,
-                    zaloPhone: phone,
-                    currentRank: rank,
-                    currentLevel: Number(playStyle),
-                };
-
-                // Add new user to array and save
-                users.push(newUser);
-                localStorage.setItem("admin_users", JSON.stringify(users));
-
-                alert(
-                    "Đăng kí thành công! Bạn có thể chuyển sang Trang chủ."
-                );
-
-                // Redirect to home page
-                window.location.href = "https://chauchicuong.github.io/CuongMechShop/";
-
-                // Reset form
-                form.reset();
+            // Cập nhật thông tin thêm user (displayName)
+            await user.updateProfile({
+              displayName: data.username
             });
+
+            // Lưu dữ liệu bổ sung (firstName, lastName, phone, rank, playStyle) vào localStorage tạm thời hoặc bạn có thể lưu ở Firestore nếu muốn
+            let userDataList = JSON.parse(localStorage.getItem("usersExtraData") || "[]");
+            userDataList.push({
+              uid: user.uid,
+              firstName: data.firstName,
+              lastName: data.lastName,
+              phone: data.phone,
+              rank: data.rank,
+              playStyle: data.playStyle
+            });
+            localStorage.setItem("usersExtraData", JSON.stringify(userDataList));
+
+            alert("Đăng kí thành công! Bạn có thể chuyển sang Trang chủ hoặc Đăng nhập.");
+
+            form.reset();
+          } catch (error) {
+            if (error.code === "auth/email-already-in-use") {
+              alert("Email đã tồn tại.");
+            } else if (error.code === "auth/invalid-email") {
+              alert("Email không hợp lệ.");
+            } else if (error.code === "auth/weak-password") {
+              alert("Mật khẩu yếu, vui lòng chọn mật khẩu hơn 6 ký tự.");
+            } else {
+              alert("Lỗi đăng ký: " + error.message);
+            }
+          }
+        });
     </script>
 </body>
 </html>
-
 
