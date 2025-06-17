@@ -247,7 +247,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="newbie"
+                                        value="Người chơi mới"
                                         class="rounded-full text-cyan-500"
                                         checked
                                         enabled
@@ -258,7 +258,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="platinum"
+                                        value="Bạch Kim"
                                         class="rounded-full text-cyan-500"
                                     />
                                     <span>Bạch Kim</span>
@@ -267,7 +267,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="ascendant"
+                                        value="Ascendant"
                                         class="rounded-full text-cyan-500"
                                     />
                                     <span>Ascendant</span>
@@ -276,7 +276,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="elite"
+                                        value="Ưu Tú"
                                         class="rounded-full text-cyan-500"
                                     />
                                     <span>Ưu Tú</span>
@@ -285,7 +285,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="legend"
+                                        value="Huyền Thoại"
                                         class="rounded-full text-cyan-500"
                                     />
                                     <span>Huyền Thoại</span>
@@ -294,7 +294,7 @@
                                     <input
                                         type="radio"
                                         name="rank"
-                                        value="champion"
+                                        value="Nhà Vô Địch"
                                         class="rounded-full text-cyan-500"
                                     />
                                     <span>Nhà Vô Địch</span>
@@ -313,11 +313,11 @@
                                 name="playStyle"
                                 class="w-full px-4 py-3 rounded-lg border border-gray-300 input-field focus:outline-none focus:border-cyan-500"
                             >
-                                <option value="aggressive">Người mới đào tạo</option>
-                                <option value="defensive">Lv.20 - Lv.39</option>
-                                <option value="balanced">Lv.40 - Lv.59</option>
-                                <option value="support">Lv.60 - Lv.89</option>
-                                <option value="stealth">Lv.90 - Lv.103</option>
+                                <option value="0">Người mới đào tạo</option>
+                                <option value="20">Lv.20 - Lv.39</option>
+                                <option value="40">Lv.40 - Lv.59</option>
+                                <option value="60">Lv.60 - Lv.89</option>
+                                <option value="90">Lv.90 - Lv.103</option>
                             </select>
                         </div>
                     </div>
@@ -450,7 +450,7 @@
                     return;
                 }
 
-                // Create new user object
+                // Create new user object with keys matching admin page
                 const newUser = {
                     id: generateId(),
                     username,
@@ -460,9 +460,9 @@
                     status: "active",
                     firstName,
                     lastName,
-                    phone,
-                    rank,
-                    playStyle,
+                    zaloPhone: phone,
+                    currentRank: rank,
+                    currentLevel: Number(playStyle),
                 };
 
                 // Add new user to array and save
@@ -473,14 +473,14 @@
                     "Đăng kí thành công! Bạn có thể chuyển sang Trang chủ."
                 );
 
+                // Redirect to home page
+                window.location.href = "https://chauchicuong.github.io/CuongMechShop/";
+
                 // Reset form
                 form.reset();
-
-                // Optionally redirect to admin page after registration
-                // window.location.href =
-                //   "https://chauchicuong.github.io/CuongMechShop-Admin/";
             });
     </script>
 </body>
 </html>
+
 
