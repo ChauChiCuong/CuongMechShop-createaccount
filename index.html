@@ -6,10 +6,9 @@
     <title>Create Account - Cuong Mech Shop</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <!-- Firebase App (the core Firebase SDK) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <!-- Firebase Authentication -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
     <style>
         /* Your existing styles */
     </style>
@@ -165,9 +164,10 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
-        // Handle account creation
+        // Xử lý đăng ký tài khoản
         document.getElementById("accountForm").addEventListener("submit", async function (event) {
-            event.preventDefault();
+            event.preventDefault(); // Ngăn chặn hành động mặc định của form
+
             const form = event.target;
             const firstName = form.firstName.value.trim();
             const lastName = form.lastName.value.trim();
@@ -178,6 +178,7 @@
             const confirmPassword = form.confirmPassword.value;
             const terms = form.terms.checked;
 
+            // Kiểm tra các trường thông tin
             if (!firstName || !lastName || !email || !phone || !username || !password || !confirmPassword) {
                 alert("Vui lòng điền đầy đủ các trường bắt buộc.");
                 return;
@@ -192,12 +193,19 @@
             }
 
             try {
+                // Tạo tài khoản mới với Firebase
                 const userCredential = await auth.createUser WithEmailAndPassword(email, password);
                 const user = userCredential.user;
-                await user.updateProfile({ displayName: username });
-                alert("Đăng ký thành công!");
-                form.reset();
+
+                // Cập nhật thông tin người dùng (username)
+                await user.updateProfile({
+                    displayName: username
+                });
+
+                alert("Đăng ký thành công! Bạn có thể chuyển sang Trang chủ.");
+                form.reset(); // Reset form sau khi đăng ký thành công
             } catch (error) {
+                // Xử lý lỗi
                 alert("Lỗi đăng ký: " + error.message);
             }
         });
