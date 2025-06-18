@@ -1,507 +1,131 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Đăng ký tài khoản - Cuong Mech Shop</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-
-        .form-container {
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border-radius: 15px;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            max-width: 600px;
-            width: 100%;
-            background-color: #1e293b;
-            color: white;
-        }
-
-        .form-container:hover {
-            transform: translateY(-5px);
-        }
-
-        .header-bg {
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231e293b"/><path d="M0,50 L100,50 M50,0 L50,100" stroke="%2337485c" stroke-width="1"/></svg>');
-            background-size: cover;
-            position: relative;
-        }
-
-        .header-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(37, 99, 235, 0.7) 0%, rgba(30, 42, 71, 0.9) 100%);
-        }
-
-        .header-bg > div {
-            position: relative;
-            z-index: 10;
-        }
-
-        input,
-        select {
-            background-color: #0f172a;
-            border: 1.5px solid #334155;
-            color: white;
-        }
-
-        input:focus,
-        select:focus {
-            border-color: #2563eb;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.3);
-        }
-
-        .password-toggle {
-            cursor: pointer;
-            transition: color 0.2s;
-            color: #9ca3af;
-        }
-
-        .password-toggle:hover {
-            color: #2563eb;
-        }
-
-        .glow-effect {
-            animation: glow 2s infinite alternate;
-        }
-
-        @keyframes glow {
-            from {
-                box-shadow: 0 0 5px rgba(37, 99, 235, 0.5);
-            }
-            to {
-                box-shadow: 0 0 20px rgba(37, 99, 235, 0.8);
-            }
-        }
-
-        .section-title {
-            position: relative;
-            padding-bottom: 0.5rem;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 3px;
-            background: linear-gradient(90deg, #2563eb, #ff6b00);
-            border-radius: 3px;
-        }
-
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            cursor: pointer;
-        }
-
-        .tooltip .tooltip-text {
-            visibility: hidden;
-            width: 200px;
-            background-color: #1e293b;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 10px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            border: 1px solid #334155;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .checkbox-container input:checked ~ .checkmark {
-            background-color: #2563eb;
-            border-color: #2563eb;
-        }
-
-        .checkbox-container .checkmark:after {
-            content: '';
-            position: absolute;
-            display: none;
-            left: 7px;
-            top: 3px;
-            width: 5px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
-
-        .checkbox-container input:checked ~ .checkmark:after {
-            display: block;
-        }
-
-        .rank-badge {
-            transition: all 0.3s ease;
-            cursor: pointer;
-            background-color: #334155;
-            color: #cbd5e1;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            user-select: none;
-            border: 1px solid transparent;
-            font-size: 0.875rem;
-        }
-
-        .rank-badge:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px rgba(255, 107, 0, 0.7);
-        }
-
-        .rank-badge.selected {
-            background: linear-gradient(135deg, #ff6b00 0%, #ff9e00 100%);
-            box-shadow: 0 0 15px rgba(255, 107, 0, 0.7);
-            border-color: #ff9e00;
-            color: white;
-        }
-
-        .error-message {
-            color: #f87171;
-            font-size: 0.9rem;
-            margin-top: 0.25rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký tài khoản - Cuong Mech Shop</title>
+  <!-- Bạn có thể thêm Tailwind CSS và Font Awesome nếu cần -->
+  <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+  <style>
+    /* Một số định dạng mẫu cho form và rank badge */
+    .rank-badge {
+      display: inline-block;
+      margin: 0 5px;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+    }
+    .rank-badge.selected {
+      background-color: #ff6b00;
+      color: #fff;
+      transform: scale(1.1);
+    }
+  </style>
 </head>
-<body>
-    <div class="form-container">
-        <div class="header-bg py-8 px-6 text-center">
-            <div>
-                <h1 class="text-3xl font-bold mb-2">
-                    <i class="fas fa-user-plus mr-3"></i>Đăng ký tài khoản
-                </h1>
-                <p class="text-blue-300 max-w-xl mx-auto">
-                    Điền thông tin của bạn để tạo tài khoản Cuong Mech Shop của bạn
-                </p>
-            </div>
-        </div>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+  <!-- Form đăng ký -->
+  <div class="max-w-xl bg-white p-8 rounded shadow">
+    <h1 class="text-3xl font-bold mb-6">Đăng ký tài khoản</h1>
+    <form id="registrationForm" class="space-y-4">
+      <input type="text" id="firstName" class="w-full border p-2 rounded" placeholder="Nhập họ và tên đầy đủ" required>
+      <input type="text" id="lastName" class="w-full border p-2 rounded" placeholder="Nhập tên của bạn" required>
+      <input type="email" id="email" class="w-full border p-2 rounded" placeholder="example@gmail.com" required>
+      <input type="text" id="username" class="w-full border p-2 rounded" placeholder="Nhập nickname trong game" required>
+      <input type="password" id="password" class="w-full border p-2 rounded" placeholder="Tạo mật khẩu mạnh" required>
+      <input type="password" id="confirmPassword" class="w-full border p-2 rounded" placeholder="Nhập lại mật khẩu" required>
+      
+      <!-- Rank selection: người dùng phải chọn một trong các badge -->
+      <div>
+        <p class="font-medium mb-2">Chọn Rank của bạn:</p>
+        <span class="rank-badge" onclick="selectRank(this)">Người chơi mới</span>
+        <span class="rank-badge" onclick="selectRank(this)">Bạch Kim</span>
+        <span class="rank-badge" onclick="selectRank(this)">Ascendant</span>
+      </div>
+      
+      <button type="submit" class="w-full py-2 bg-cyan-500 text-white rounded hover:bg-cyan-600">Đăng ký</button>
+    </form>
+  </div>
 
-        <form id="registrationForm" class="p-6 space-y-8" novalidate>
-            <!-- Personal Information Section -->
-            <div>
-                <h2 class="section-title text-xl font-bold mb-6 flex items-center">
-                    <i class="fas fa-user mr-2"></i>Thông tin cá nhân
-                </h2>
+  <script>
+    // Hàm chọn Rank: thêm lớp "selected" cho badge được click
+    function selectRank(element) {
+      document.querySelectorAll('.rank-badge').forEach(badge => badge.classList.remove('selected'));
+      element.classList.add('selected');
+    }
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="firstName" class="block mb-2">Họ của bạn <span class="text-red-500">*</span></label>
-                        <input type="text" id="firstName" name="firstName" placeholder="Nhập họ của bạn" required class="rounded-lg py-3 px-4 text-lg w-full" />
-                        <div class="error-message" id="errorFirstName"></div>
-                    </div>
-                    <div>
-                        <label for="lastName" class="block mb-2">Tên của bạn <span class="text-red-500">*</span></label>
-                        <input type="text" id="lastName" name="lastName" placeholder="Nhập tên của bạn" required class="rounded-lg py-3 px-4 text-lg w-full" />
-                        <div class="error-message" id="errorLastName"></div>
-                    </div>
-                    <div>
-                        <label for="email" class="block mb-2">Email Google Play <span class="text-red-500">*</span></label>
-                        <input type="email" id="email" name="email" placeholder="example@gmail.com" required class="rounded-lg py-3 px-4 text-lg w-full" />
-                        <div class="error-message" id="errorEmail"></div>
-                    </div>
-                    <div>
-                        <label for="zaloPhone" class="block mb-2">Số điện thoại Zalo <span class="text-red-500">*</span></label>
-                        <input type="tel" id="zaloPhone" name="zaloPhone" placeholder="Nhập số điện thoại Zalo" required class="rounded-lg py-3 px-4 text-lg w-full" />
-                        <div class="error-message" id="errorZaloPhone"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Login Information Section -->
-            <div>
-                <h2 class="section-title text-xl font-bold mb-6 flex items-center">
-                    <i class="fas fa-key mr-2"></i>Thông tin đăng nhập
-                </h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label for="username" class="block mb-2">Tên đăng nhập <span class="text-red-500">*</span></label>
-                        <input type="text" id="username" name="username" placeholder="Tên đăng nhập" required class="rounded-lg py-3 px-4 text-lg w-full" />
-                        <div class="error-message" id="errorUsername"></div>
-                    </div>
-
-                    <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="password" class="block mb-2">Mật khẩu <span class="text-red-500">*</span></label>
-                            <div class="relative">
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    placeholder="Tạo mật khẩu mạnh"
-                                    required
-                                    autocomplete="new-password"
-                                    class="rounded-lg py-3 px-4 text-lg w-full"
-                                />
-                                <span class="password-toggle absolute right-4 top-3.5" onclick="togglePassword('password')">
-                                    <i class="fas fa-eye"></i>
-                                </span>
-                            </div>
-                            <small class="text-gray-400 block mt-1 text-xs">
-                                Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số
-                            </small>
-                            <div class="error-message" id="errorPassword"></div>
-                        </div>
-                        <div>
-                            <label for="confirmPassword" class="block mb-2">Nhập lại mật khẩu <span class="text-red-500">*</span></label>
-                            <div class="relative">
-                                <input
-                                    type="password"
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    placeholder="Nhập lại mật khẩu"
-                                    required
-                                    autocomplete="new-password"
-                                    class="rounded-lg py-3 px-4 text-lg w-full"
-                                />
-                                <span class="password-toggle absolute right-4 top-3.5" onclick="togglePassword('confirmPassword')">
-                                    <i class="fas fa-eye"></i>
-                                </span>
-                            </div>
-                            <div class="error-message" id="errorConfirmPassword"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Game Preferences Section -->
-            <div>
-                <h2 class="section-title text-xl font-bold mb-6 flex items-center">
-                    <i class="fas fa-trophy mr-2"></i>Thể loại Rank
-                </h2>
-
-                <div class="grid grid-cols-3 gap-3">
-                    <div class="rank-badge" onclick="selectRank(this)">Người chơi mới</div>
-                    <div class="rank-badge" onclick="selectRank(this)">Bạch Kim</div>
-                    <div class="rank-badge" onclick="selectRank(this)">Ascendant</div>
-                    <div class="rank-badge" onclick="selectRank(this)">Ưu Tú</div>
-                    <div class="rank-badge" onclick="selectRank(this)">Huyền Thoại</div>
-                    <div class="rank-badge" onclick="selectRank(this)">Nhà Vô Địch</div>
-                </div>
-                <input type="hidden" name="currentRank" id="currentRank" value="" />
-                <div class="error-message mt-2" id="errorRank"></div>
-            </div>
-
-            <div>
-                <label for="currentLevel" class="block mb-2 mt-6">Lv. hiện tại của bạn <span class="text-red-500">*</span></label>
-                <input
-                    type="number"
-                    id="currentLevel"
-                    name="currentLevel"
-                    min="1"
-                    placeholder="Nhập Lv hiện tại"
-                    required
-                    class="rounded-lg py-3 px-4 text-lg w-full"
-                />
-                <div class="error-message" id="errorLevel"></div>
-            </div>
-
-            <!-- Terms and Conditions -->
-            <div class="mt-6 flex items-start space-x-3">
-                <input type="checkbox" id="terms" name="terms" required />
-                <label for="terms" class="select-none text-gray-300">
-                    Tôi đồng ý với
-                    <a href="https://policies.google.com/terms?hl=vi" target="_blank" class="text-blue-400 hover:underline">Điều khoản dịch vụ</a>
-                    và
-                    <a href="https://policies.google.com/privacy?hl=vi" target="_blank" class="text-blue-400 hover:underline">Chính sách bảo mật</a>
-                    <span class="text-red-500">*</span>
-                </label>
-            </div>
-            <div class="error-message" id="errorTerms"></div>
-
-            <div class="mt-6 bg-red-900/30 border border-red-700 rounded-lg p-4">
-                <p class="flex items-center text-red-300">
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                    Nếu bạn nhập bừa thông tin, tài khoản của bạn sẽ bị khóa vĩnh viễn sau 15 phút vì lí do spam.
-                </p>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="text-center mt-8">
-                <button type="submit"
-                    class="glow-effect bg-gradient-to-r from-blue-600 to-orange-500 py-4 px-10 rounded-full font-bold text-white hover:opacity-90 transition transform hover:scale-105 flex items-center justify-center mx-auto">
-                    <i class="fas fa-user-plus mr-2"></i> Tạo tài khoản
-                </button>
-            </div>
-
-            <!-- Additional Buttons -->
-            <div class="flex justify-center space-x-4 mt-4">
-                <a href="https://chauchicuong.github.io/CuongMechShop/" 
-                   class="bg-gray-600 hover:bg-gray-700 text-white py-3 px-6 rounded-full font-medium transition">
-                    <i class="fas fa-home mr-2"></i>Back to Home
-                </a>
-                <a href="https://chauchicuong.github.io/CuongMechShop-signin/" 
-                   class="bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-full font-medium transition">
-                    <i class="fas fa-sign-in-alt mr-2"></i>Đăng nhập
-                </a>
-            </div>
-
-            <!-- Status message -->
-            <div id="statusMessage" class="mt-4 text-center"></div>
-        </form>
-    </div>
-
-    <script>
-        function togglePassword(fieldId) {
-            const field = document.getElementById(fieldId);
-            const icon = field.nextElementSibling.querySelector('i');
-            if (field.type === 'password') {
-                field.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                field.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
+    // Xử lý khi form đăng ký được submit
+    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+      e.preventDefault();  // Ngăn reload trang
+     
+      // Lấy dữ liệu từ form
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName  = document.getElementById('lastName').value.trim();
+      const email     = document.getElementById('email').value.trim();
+      const username  = document.getElementById('username').value.trim();
+      const password  = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      // Kiểm tra mật khẩu khớp
+      if (password !== confirmPassword) {
+        alert("Mật khẩu không khớp! Vui lòng nhập lại.");
+        return;
+      }
+      
+      // Kiểm tra độ mạnh mật khẩu (ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số)
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+      if (!passwordRegex.test(password)) {
+        alert("Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số!");
+        return;
+      }
+      
+      // Lấy rank đã chọn (nếu không chọn thì báo lỗi)
+      const selectedRankElement = document.querySelector('.rank-badge.selected');
+      if (!selectedRankElement) {
+        alert("Vui lòng chọn rank hiện tại của bạn!");
+        return;
+      }
+      const rank = selectedRankElement.textContent.trim();
+      
+      // Tạo object chứa thông tin người dùng
+      const userData = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        username: username,
+        password: password,  // Trong thực tế, hãy băm mật khẩu trước khi gửi
+        role: "player",      // Bạn có thể gán role tùy theo logic
+        rank: rank
+      };
+      
+      // URL của Google Apps Script Web App (thay YOUR_SCRIPT_ID bằng ID của bạn)
+      const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
+      
+      // Gửi dữ liệu đến GAS qua phương thức POST
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      })
+      .then(response => response.json())
+      .then(result => {
+        if(result.result === "success") {
+          // Lưu trạng thái đăng nhập vào localStorage
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("userData", JSON.stringify(userData));
+          alert("Đăng ký thành công! Bạn sẽ được chuyển hướng.");
+          // Chuyển hướng đến trang chủ (hoặc trang người dùng)
+          window.location.href = "https://chauchicuong.github.io/CuongMechShop/";
+        } else {
+          alert("Có lỗi xảy ra khi đăng ký: " + result.message);
         }
-
-        function selectRank(el) {
-            document.querySelectorAll('.rank-badge').forEach(b => b.classList.remove('selected'));
-            el.classList.add('selected');
-            document.getElementById('currentRank').value = el.textContent.trim();
-            // Clear any error when selected
-            document.getElementById('errorRank').textContent = '';
-        }
-
-        function clearErrors() {
-            ['errorFirstName', 'errorLastName', 'errorEmail', 'errorZaloPhone', 'errorUsername', 'errorPassword', 'errorConfirmPassword', 'errorRank', 'errorLevel', 'errorTerms'].forEach(id => {
-                document.getElementById(id).textContent = '';
-            });
-            document.getElementById('statusMessage').textContent = '';
-        }
-
-        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            clearErrors();
-
-            const form = e.target;
-            const data = {
-                firstName: form.firstName.value.trim(),
-                lastName: form.lastName.value.trim(),
-                email: form.email.value.trim(),
-                zaloPhone: form.zaloPhone.value.trim(),
-                username: form.username.value.trim(),
-                password: form.password.value,
-                currentRank: form.currentRank.value.trim(),
-                currentLevel: form.currentLevel.value.trim(),
-                role: 'player',
-                status: 'active'
-            };
-
-            let hasError = false;
-
-            if (!data.firstName) {
-                document.getElementById('errorFirstName').textContent = 'Họ không được để trống';
-                hasError = true;
-            }
-            if (!data.lastName) {
-                document.getElementById('errorLastName').textContent = 'Tên không được để trống';
-                hasError = true;
-            }
-            if (!data.email || !/\S+@\S+\.\S+/.test(data.email)) {
-                document.getElementById('errorEmail').textContent = 'Email không hợp lệ';
-                hasError = true;
-            }
-            if (!data.zaloPhone) {
-                document.getElementById('errorZaloPhone').textContent = 'Số điện thoại Zalo không được để trống';
-                hasError = true;
-            }
-            if (!data.username) {
-                document.getElementById('errorUsername').textContent = 'Tên đăng nhập không được để trống';
-                hasError = true;
-            }
-            if (!data.password) {
-                document.getElementById('errorPassword').textContent = 'Mật khẩu không được để trống';
-                hasError = true;
-            }
-            if (data.password.length < 8 || !/[A-Z]/.test(data.password) || !/[a-z]/.test(data.password) || !/[0-9]/.test(data.password)) {
-                document.getElementById('errorPassword').textContent = 'Mật khẩu phải có ít nhất 8 ký tự, bao gồm chữ hoa, chữ thường và số';
-                hasError = true;
-            }
-            const confirmPassword = form.confirmPassword.value;
-            if (confirmPassword !== data.password) {
-                document.getElementById('errorConfirmPassword').textContent = 'Mật khẩu nhập lại không khớp';
-                hasError = true;
-            }
-            if (!data.currentRank) {
-                document.getElementById('errorRank').textContent = 'Vui lòng chọn rank hiện tại';
-                hasError = true;
-            }
-            if (!data.currentLevel || isNaN(data.currentLevel) || Number(data.currentLevel) < 1) {
-                document.getElementById('errorLevel').textContent = 'Lv. hiện tại không hợp lệ';
-                hasError = true;
-            }
-            if (!form.terms.checked) {
-                document.getElementById('errorTerms').textContent = 'Bạn phải đồng ý với điều khoản dịch vụ';
-                hasError = true;
-            }
-
-            if (hasError) {
-                return;
-            }
-
-            try {
-                const response = await fetch('http://localhost:3000/api/register', {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    // Registration successful; redirect to homepage or logged-in page
-                    document.getElementById('statusMessage').style.color = '#4ade80'; // green
-                    document.getElementById('statusMessage').textContent = 'Đăng ký thành công! Đang chuyển hướng...';
-
-                    // Delay then redirect
-                    setTimeout(() => {
-                        // Redirect to homepage or dashboard
-                        window.location.href = '/'; // Điều chỉnh URL nếu cần
-                    }, 1500);
-                } else {
-                    // Server returned error
-                    document.getElementById('statusMessage').style.color = '#f87171'; // red
-                    document.getElementById('statusMessage').textContent = result.error || 'Có lỗi xảy ra, vui lòng thử lại.';
-                }
-            } catch (error) {
-                document.getElementById('statusMessage').style.color = '#f87171';
-                document.getElementById('statusMessage').textContent = 'Lỗi kết nối đến server. Vui lòng thử lại.';
-                console.error('Register error:', error);
-            }
-        });
-    </script>
+      })
+      .catch(error => {
+        console.error("Lỗi:", error);
+        alert("Có lỗi xảy ra. Vui lòng kiểm tra lại kết nối.");
+      });
+    });
+  </script>
 </body>
 </html>
